@@ -1,4 +1,4 @@
-=== WordPress.org Plugin/Theme Information Embed ===
+=== WordPress.org plugin/theme info embed ===
 Contributors: leewillis77
 Donate link: http://www.leewillis.co.uk/wordpress-plugins/?utm_source=wordpress&utm_medium=www&utm_campaign=github-embed
 Tags: plugin information, theme, embed, oembed
