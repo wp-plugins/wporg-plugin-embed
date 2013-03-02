@@ -24,6 +24,11 @@ The main development is all going on on [GitHub](https://github.com/leewillis77/
 Not yet, we're hoping to add templating - [all contributions welcome](https://github.com/leewillis77/wp-wpdotorg-oembed)!
 
 
+== Screenshots ==
+
+1. Pasting a plugin URL into your post
+2. The plugin information pulled in automatically when your post is viewed
+
 == Changelog ==
 
 = 1.1 =
