@@ -4,7 +4,7 @@
 Plugin Name: WP.org Embed
 Plugin URI: http://www.leewillis.co.uk/wordpress-plugins
 Description: Paste the URL to a WordPress.org plugin into your posts or pages, and have the plugin information pulled in and displayed automatically
-Version: 1.1
+Version: 1.2
 Author: Lee Willis
 Author URI: http://www.leewillis.co.uk/
 */
@@ -56,10 +56,45 @@ class wpdotorg_embed {
 		add_action ( 'init', array ( $this, 'register_oembed_handler' ) );
 		add_action ( 'init', array ( $this, 'maybe_handle_oembed' ) );
 		add_action ( 'wp_enqueue_scripts', array ( $this, 'enqueue_styles' ) );
-
+        add_action ( 'admin_init', array ( $this, 'schedule_expiry' ) );
+        add_action ( 'wpdotorg_embed_cron', array ( $this, 'cron' ) );
 		// @TODO i18n
 
 	}
+
+
+
+    /**
+     * Make sure we have a scheduled event set to clear down the oEmbed cache until
+     * WordPress supports cache_age in oEmbed responses.
+     */
+    function schedule_expiry() {
+
+        if( ! wp_next_scheduled( 'wpdotorg_embed_cron' ) ) {
+            $frequency = apply_filters ( 'wpdotorg_embed_cache_frequency', 'daily' );
+           wp_schedule_event( time(), $frequency, 'wpdotorg_embed_cron' );
+        }
+
+    }
+
+
+
+    /**
+     * Expire old oEmbeds.
+     * Note: This is a bit sledgehammer-to-crack-a-nut hence why I'm only running it
+     * daily. Ideally WP should honour cache_age in oEmbed responses properly
+     */
+    function cron() {
+
+        global $wpdb, $table_prefix;
+
+        $sql = "DELETE
+                  FROM {$table_prefix}postmeta
+                 WHERE meta_key LIKE '_oembed_%'";
+
+        $results = $wpdb->get_results ( $sql );
+
+    }
 
 
 
@@ -205,7 +240,7 @@ class wpdotorg_embed {
 		}
 
 		if ( ! empty ( $plugin->downloaded ) ) {
-			$stats .= '<li>Downloaded '.esc_html($plugin->downloaded).' times</li>';
+			$stats .= '<li>Downloaded ' . esc_html( number_format_i18n( $plugin->downloaded ) ) . ' times</li>';
 		}
 
 		if ( ! empty ( $stats ) ) {
@@ -257,7 +292,7 @@ class wpdotorg_embed {
 		}
 
 		if ( ! empty ( $theme->downloaded ) ) {
-			$stats .= '<li>Downloaded '.esc_html($theme->downloaded).' times</li>';
+			$stats .= '<li>Downloaded ' . esc_html( number_format_i18n( $plugin->downloaded ) ) . ' times</li>';
 		}
 
 		if ( ! empty ( $stats ) ) {

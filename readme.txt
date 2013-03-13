@@ -1,10 +1,10 @@
-=== WordPress.org plugin/theme info embed ===
+=== WordPress.org Plugin/Theme Information Embed ===
 Contributors: leewillis77
 Donate link: http://www.leewillis.co.uk/wordpress-plugins/?utm_source=wordpress&utm_medium=www&utm_campaign=github-embed
 Tags: plugin information, theme, embed, oembed
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.1
+Stable tag: 1.2
 
 == Description ==
 
@@ -24,12 +24,11 @@ The main development is all going on on [GitHub](https://github.com/leewillis77/
 Not yet, we're hoping to add templating - [all contributions welcome](https://github.com/leewillis77/wp-wpdotorg-oembed)!
 
 
-== Screenshots ==
-
-1. Pasting a plugin URL into your post
-2. The plugin information pulled in automatically when your post is viewed
-
 == Changelog ==
+
+= 1.2 =
+
+* Expire oEmbed cache daily
 
 = 1.1 =
 
