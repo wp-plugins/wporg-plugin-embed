@@ -125,6 +125,8 @@ class wpdotorg_embed {
 		$oembed_url = add_query_arg( array( 'wpdotorg_oembed' => $key ), $oembed_url );
 		wp_oembed_add_provider( '#https?://wordpress.org/extend/plugins/.*/?#i', $oembed_url, true );
 		wp_oembed_add_provider( '#https?://wordpress.org/extend/themes/.*/?#i', $oembed_url, true );
+		wp_oembed_add_provider( '#https?://wordpress.org/plugins/.*/?#i', $oembed_url, true );
+		wp_oembed_add_provider( '#https?://wordpress.org/themes/.*/?#i', $oembed_url, true );
 	}
 
 
@@ -181,12 +183,16 @@ class wpdotorg_embed {
 
 		if ( ! empty( $format ) && $format != 'json' ) {
 			header( 'HTTP/1.0 501 Not implemented' );
-			die( 'Only json here, probably #blamenacin' );
+			die( 'Only JSON here, probably #blamenacin' );
 		}
 
 		if ( preg_match( '#https?://wordpress.org/extend/plugins/([^/]*)/?$#i', $url, $matches ) ) {
 			$this->oembed_wpdotorg_plugin( $matches[1] );
+		} elseif ( preg_match( '#https?://wordpress.org/plugins/([^/]*)/?$#i', $url, $matches ) ) {
+			$this->oembed_wpdotorg_plugin( $matches[1] );
 		} elseif ( preg_match( '#https?://wordpress.org/extend/themes/([^/]*)/?$#i', $url, $matches ) ) {
+			$this->oembed_wpdotorg_theme( $matches[1] );
+		} elseif ( preg_match( '#https?://wordpress.org/themes/([^/]*)/?$#i', $url, $matches ) ) {
 			$this->oembed_wpdotorg_theme( $matches[1] );
 		} else {
         	header( 'HTTP/1.0 404 Not Found' );
